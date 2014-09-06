@@ -13,7 +13,7 @@ Documentation
 
 ```python
 >>> import wowapi
->>> api = wowapi.API('youApiKeyGoesHere')
+>>> api = wowapi.API('yourApiKeyGoesHere')
 >>> api.character('madoran', 'Aisa')
 {u'realm': u'Madoran' ...
 ```

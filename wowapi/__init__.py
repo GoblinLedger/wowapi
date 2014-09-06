@@ -136,7 +136,7 @@ class API:
         return self.get_resource(resourceUrl, params)
 
     def item(self, itemId):
-        resourceUrl = "/item/{0]".format(itemId)
+        resourceUrl = "/item/{0}".format(itemId)
         return self.get_resource(resourceUrl)
 
     def item_set(self, setId):
