@@ -5,14 +5,16 @@ setup(
     version='0.0.1',
     packages=['wowapi'],
     install_requires=[
-        'requests'
+        'requests',
+        'certifi',
+        'wsgiref'
     ],
 
     author = "Billy Overton",
     author_email = "billy@billyoverton.com",
     description = "Python library for the World of Warcraft Community API",
     license = "MIT License",
-    keywords = "World of Warcraft"
+    keywords = "World of Warcraft",
     url = "https://github.com/GoblinLedger/wowapi",
 
     classifiers= [
