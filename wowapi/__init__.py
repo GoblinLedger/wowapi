@@ -166,5 +166,45 @@ class API:
         resourceUrl = "/spell/{0}".format(spellId)
         return self.get_resource(resourceUrl)
 
+    def battlegroups(self):
+        resourceUrl = "/data/battlegroups/"
+        return self.get_resource(resourceUrl)
+
+    def character_races(self):
+        resourceUrl = "/data/character/races"
+        return self.get_resource(resourceUrl)
+
+    def character_classes(self):
+        resourceUrl = "/data/character/classes"
+        return self.get_resource(resourceUrl)
+
+    def character_achievements(self):
+        resourceUrl = "/data/character/achievements"
+        return self.get_resource(resourceUrl)
+
+    def guild_rewards(self):
+        resourceUrl = "/data/guild/rewards"
+        return self.get_resource(resourceUrl)
+
+    def guild_perks(self):
+        resourceUrl = "/data/guild/perks"
+        return self.get_resource(resourceUrl)
+
+    def guild_achievements(self):
+        resourceUrl = "/data/guild/achievements"
+        return self.get_resource(resourceUrl)
+
+    def item_classes(self):
+        resourceUrl = "/data/item/classes"
+        return self.get_resource(resourceUrl)
+
+    def talents(self):
+        resourceUrl = "/data/talents"
+        return self.get_resource(resourceUrl)
+
+    def pet_types(self):
+        resourceUrl = "/data/pet/types"
+        return self.get_resource(resourceUrl)
+
 
 
