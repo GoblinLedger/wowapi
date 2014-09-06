@@ -7,6 +7,16 @@ REGIONS = {
         'TW': 'https://tw.api.battle.net/wow'
     }
 
+class APIError(Exception):
+    """Represents an Error accessing the comunity api for WoW"""
+
+    def __init__(self, status_code, message):
+        self.status_code = status_code
+        self.message = message
+
+    def __str__(self):
+        return "{0}: {1}".format(self.status_code, self.message)
+
 class API:
     
     def __init__(self, apiKey, region='US', locale='en_US'):
@@ -39,11 +49,24 @@ class API:
         resourceUrl = "/auction/data/{0}".format(realm)
         return self.get_resource(resourceUrl)
 
-    def auction_status_with_data(self, realm):
+    def auction_status_with_data(self, realm, tries=2):
         data = self.auction_status(realm)
 
         for files in data['files']:
-            r = requests.get(files['url'])
+            # This often fails for unknown reasons. Trying again usually gets
+            # it to work. Nasty hack, but not much choice.
+
+            r = None
+            while tries > 0:
+                r = requests.get(files['url'])
+
+                if r.status_code == 200:
+                    break
+                tries = tries - 1
+
+            if tries <= 0 and r.status_code != 200:
+                return APIError(r.status_code, r.text)
+
             files['data'] = r.json()
 
         return data
