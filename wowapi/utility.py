@@ -1,7 +1,7 @@
 def format_currency(copper, format='{gold}g {silver}s {copper}c'):
     """Takes a copper amount and formats it into a pretty string
 
-    Given a integer copper amount, caculates the represented amount of gold,
+    Given a integer copper amount, calculates the represented amount of gold,
     silver, and excess copper and returns a representational string based on a
     provided format. Defaults to {gold}g {silver}s {copper}c.
     """
