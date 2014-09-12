@@ -1,3 +1,11 @@
+
+#: Table for converting currencies. Uses copper as the base unit.
+CURRENCY_EXCHANGE = {
+    'gold': 10000,
+    'silver': 100,
+    'copper': 1
+}
+
 def format_currency(copper, format='{gold}g {silver}s {copper}c'):
     """Takes a copper amount and formats it into a pretty string
 
@@ -6,8 +14,14 @@ def format_currency(copper, format='{gold}g {silver}s {copper}c'):
     provided format. Defaults to {gold}g {silver}s {copper}c.
     """
 
-    gold = copper // 10000
-    copper = copper % 10000
-    silver = copper // 100
-    copper = copper % 100
+    gold, silver, copper = convert_currency(copper)
     return format.format(gold=gold, silver=silver, copper=copper)
+
+def convert_currency(copper):
+    """Takes a copper ammout and converts it to a (gold,silver,copper) tuple"""
+
+    gold = copper // CURRENCY_EXCHANGE['gold']
+    copper = copper % CURRENCY_EXCHANGE['gold']
+    silver = copper // CURRENCY_EXCHANGE['silver']
+    copper = copper % CURRENCY_EXCHANGE['silver']
+    return (gold, silver, copper)
