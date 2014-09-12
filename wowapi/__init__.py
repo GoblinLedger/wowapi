@@ -1,11 +1,45 @@
 import requests
 
 REGIONS = {
-        'US': 'https://us.api.battle.net/wow',
-        'EU': 'https://eu.api.battle.net/wow',
-        'KR': 'https://kr.api.battle.net/wow',
-        'TW': 'https://tw.api.battle.net/wow'
-    }
+    'US': 'https://us.api.battle.net/wow',
+    'EU': 'https://eu.api.battle.net/wow',
+    'KR': 'https://kr.api.battle.net/wow',
+    'TW': 'https://tw.api.battle.net/wow'
+}
+
+CHARACTER_FIELDS = [
+    "achievements",
+    "appearance",
+    "feed",
+    "guild",
+    "hunterPets",
+    "items",
+    "mounts",
+    "pets",
+    "petSlots",
+    "progression",
+    "pvp",
+    "quests",
+    "reputation",
+    "stats",
+    "talents",
+    "titles",
+    "audit"
+]
+
+GUILD_FIELDS = [
+    "achievements",
+    "members",
+    "news",
+    "challenge"
+]
+
+PVP_BRACKETS = [
+    '2v2',
+    '3v3',
+    '5v5',
+    'rbg'
+]
 
 class APIError(Exception):
     """Represents an Error accessing the comunity api for WoW"""
@@ -105,31 +139,10 @@ class API:
         return self.get_resource(resourceUrl)
 
     def character(self, realm, characterName, fields=None):
-        
-        valid_fields = [
-            "achievements",
-            "appearance",
-            "feed",
-            "guild",
-            "hunterPets",
-            "items",
-            "mounts",
-            "pets",
-            "petSlots",
-            "progression",
-            "pvp",
-            "quests",
-            "reputation",
-            "stats",
-            "talents",
-            "titles",
-            "audit"
-        ]
-
         params = {}
         if fields is not None:
             for field in fields:
-                if field not in valid_fields:
+                if field not in CHARACTER_FIELDS:
                     raise ValueError("{0} is not a valid field for a character.".format(field))
             params = {
                 'fields': ','.join(fields)
@@ -138,18 +151,11 @@ class API:
         resourceUrl = "/character/{0}/{1}".format(realm, characterName)
         return self.get_resource(resourceUrl, params)
 
-    def guild(self, realm, guildName, fields=None):
-        valid_fields = [
-            "achievements",
-            "members",
-            "news",
-            "challenge"
-        ]
-        
+    def guild(self, realm, guildName, fields=None):        
         params = {}
         if fields is not None:
             for field in fields:
-                if field not in valid_fields:
+                if field not in GUILD_FIELDS:
                     raise ValueError("{0} is not a valid field for a guild.".format(field))
             params = {
                 'fields': ','.join(fields)
@@ -167,7 +173,7 @@ class API:
         return self.get_resource(resourceUrl)
 
     def pvp_leaderboard(self, bracket):
-        if bracket not in ['2v2', '3v3', '5v5', 'rbg']:
+        if bracket not in PVP_BRACKETS:
             raise ValueError("Unknown bracket type. Valid values are 2v2, 3v3, 5v5 and rbg.")
 
         resourceUrl = "/leaderboard/{0}".format(bracket)
