@@ -42,7 +42,7 @@ PVP_BRACKETS = [
 ]
 
 class APIError(Exception):
-    """Represents an Error accessing the comunity api for WoW"""
+    """Represents an Error accessing the community api for WoW"""
 
     def __init__(self, status_code, message):
         self.status_code = status_code
