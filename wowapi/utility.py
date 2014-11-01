@@ -27,7 +27,7 @@ def convert_currency(copper):
     copper = copper % CURRENCY_EXCHANGE['silver']
     return (gold, silver, copper)
 
-def retreive_auctions(auction_status, tries=2):
+def retrieve_auctions(auction_status, tries=2):
     """Given a auction status object, retreives all auctions in the snapshot"""
 
     # Copy the auction status object to only return a copy.
