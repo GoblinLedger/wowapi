@@ -1,3 +1,4 @@
+import requests
 
 #: Table for converting currencies. Uses copper as the base unit.
 CURRENCY_EXCHANGE = {
@@ -25,3 +26,28 @@ def convert_currency(copper):
     silver = copper // CURRENCY_EXCHANGE['silver']
     copper = copper % CURRENCY_EXCHANGE['silver']
     return (gold, silver, copper)
+
+def retreive_auctions(auction_status, tries=2):
+    """Given a auction status object, retreives all auctions in the snapshot"""
+
+    # Copy the auction status object to only return a copy.
+    data = dict(auction_status)
+
+    for files in data['files']:
+        # This often fails for unknown reasons. Trying again usually gets
+        # it to work. Nasty hack, but not much choice.
+
+        r = None
+        while tries > 0:
+            r = requests.get(files['url'])
+
+            if r.status_code == 200:
+                break
+            tries = tries - 1
+
+        if tries <= 0 and r.status_code != 200:
+            return APIError(r.status_code, r.text)
+
+        files['data'] = r.json()
+
+    return data

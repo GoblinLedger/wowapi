@@ -52,7 +52,7 @@ class APIError(Exception):
         return "{0}: {1}".format(self.status_code, self.message)
 
 class API:
-    
+
     def __init__(self, apiKey, region='US', locale='en_US'):
         self.apiKey = apiKey
         self.locale = locale
@@ -83,28 +83,6 @@ class API:
         resourceUrl = "/auction/data/{0}".format(realm)
         return self.get_resource(resourceUrl)
 
-    def auction_status_with_data(self, realm, tries=2):
-        data = self.auction_status(realm)
-
-        for files in data['files']:
-            # This often fails for unknown reasons. Trying again usually gets
-            # it to work. Nasty hack, but not much choice.
-
-            r = None
-            while tries > 0:
-                r = requests.get(files['url'])
-
-                if r.status_code == 200:
-                    break
-                tries = tries - 1
-
-            if tries <= 0 and r.status_code != 200:
-                return APIError(r.status_code, r.text)
-
-            files['data'] = r.json()
-
-        return data
-
     def battlepet_ability(self, abilityId):
         resourceUrl = "/battlePet/ability/{0}".format(abilityId)
         return self.get_resource(resourceUrl)
@@ -124,7 +102,7 @@ class API:
             "level": level,
             "breedId": breedId,
             "qualityId": qualityId
-        } 
+        }
 
         resourceUrl = "/battlePet/stats/{0}".format(speciesId)
 
@@ -151,7 +129,7 @@ class API:
         resourceUrl = "/character/{0}/{1}".format(realm, characterName)
         return self.get_resource(resourceUrl, params)
 
-    def guild(self, realm, guildName, fields=None):        
+    def guild(self, realm, guildName, fields=None):
         params = {}
         if fields is not None:
             for field in fields:
