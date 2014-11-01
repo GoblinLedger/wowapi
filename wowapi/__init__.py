@@ -1,14 +1,48 @@
 import requests
 
 REGIONS = {
-        'US': 'https://us.api.battle.net/wow',
-        'EU': 'https://eu.api.battle.net/wow',
-        'KR': 'https://kr.api.battle.net/wow',
-        'TW': 'https://tw.api.battle.net/wow'
-    }
+    'US': 'https://us.api.battle.net/wow',
+    'EU': 'https://eu.api.battle.net/wow',
+    'KR': 'https://kr.api.battle.net/wow',
+    'TW': 'https://tw.api.battle.net/wow'
+}
+
+CHARACTER_FIELDS = [
+    "achievements",
+    "appearance",
+    "feed",
+    "guild",
+    "hunterPets",
+    "items",
+    "mounts",
+    "pets",
+    "petSlots",
+    "progression",
+    "pvp",
+    "quests",
+    "reputation",
+    "stats",
+    "talents",
+    "titles",
+    "audit"
+]
+
+GUILD_FIELDS = [
+    "achievements",
+    "members",
+    "news",
+    "challenge"
+]
+
+PVP_BRACKETS = [
+    '2v2',
+    '3v3',
+    '5v5',
+    'rbg'
+]
 
 class APIError(Exception):
-    """Represents an Error accessing the comunity api for WoW"""
+    """Represents an Error accessing the community api for WoW"""
 
     def __init__(self, status_code, message):
         self.status_code = status_code
@@ -18,7 +52,7 @@ class APIError(Exception):
         return "{0}: {1}".format(self.status_code, self.message)
 
 class API:
-    
+
     def __init__(self, apiKey, region='US', locale='en_US'):
         self.apiKey = apiKey
         self.locale = locale
@@ -49,28 +83,6 @@ class API:
         resourceUrl = "/auction/data/{0}".format(realm)
         return self.get_resource(resourceUrl)
 
-    def auction_status_with_data(self, realm, tries=2):
-        data = self.auction_status(realm)
-
-        for files in data['files']:
-            # This often fails for unknown reasons. Trying again usually gets
-            # it to work. Nasty hack, but not much choice.
-
-            r = None
-            while tries > 0:
-                r = requests.get(files['url'])
-
-                if r.status_code == 200:
-                    break
-                tries = tries - 1
-
-            if tries <= 0 and r.status_code != 200:
-                return APIError(r.status_code, r.text)
-
-            files['data'] = r.json()
-
-        return data
-
     def battlepet_ability(self, abilityId):
         resourceUrl = "/battlePet/ability/{0}".format(abilityId)
         return self.get_resource(resourceUrl)
@@ -90,7 +102,7 @@ class API:
             "level": level,
             "breedId": breedId,
             "qualityId": qualityId
-        } 
+        }
 
         resourceUrl = "/battlePet/stats/{0}".format(speciesId)
 
@@ -105,31 +117,10 @@ class API:
         return self.get_resource(resourceUrl)
 
     def character(self, realm, characterName, fields=None):
-        
-        valid_fields = [
-            "achievements",
-            "appearance",
-            "feed",
-            "guild",
-            "hunterPets",
-            "items",
-            "mounts",
-            "pets",
-            "petSlots",
-            "progression",
-            "pvp",
-            "quests",
-            "reputation",
-            "stats",
-            "talents",
-            "titles",
-            "audit"
-        ]
-
         params = {}
         if fields is not None:
             for field in fields:
-                if field not in valid_fields:
+                if field not in CHARACTER_FIELDS:
                     raise ValueError("{0} is not a valid field for a character.".format(field))
             params = {
                 'fields': ','.join(fields)
@@ -139,17 +130,10 @@ class API:
         return self.get_resource(resourceUrl, params)
 
     def guild(self, realm, guildName, fields=None):
-        valid_fields = [
-            "achievements",
-            "members",
-            "news",
-            "challenge"
-        ]
-        
         params = {}
         if fields is not None:
             for field in fields:
-                if field not in valid_fields:
+                if field not in GUILD_FIELDS:
                     raise ValueError("{0} is not a valid field for a guild.".format(field))
             params = {
                 'fields': ','.join(fields)
@@ -167,7 +151,7 @@ class API:
         return self.get_resource(resourceUrl)
 
     def pvp_leaderboard(self, bracket):
-        if bracket not in ['2v2', '3v3', '5v5', 'rbg']:
+        if bracket not in PVP_BRACKETS:
             raise ValueError("Unknown bracket type. Valid values are 2v2, 3v3, 5v5 and rbg.")
 
         resourceUrl = "/leaderboard/{0}".format(bracket)

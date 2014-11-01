@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='wowapi',
-    version='0.0.1',
+    version='0.1.0',
     packages=['wowapi'],
     install_requires=[
         'requests',
@@ -18,7 +18,7 @@ setup(
     url = "https://github.com/GoblinLedger/wowapi",
 
     classifiers= [
-        'Development Status :: 3 - Alpha',
+        'Development Status :: 4 - Beta',
         'Intended Audience :: Developers',
         'License :: OSI Approved :: MIT License',
         'Natural Language :: English',
