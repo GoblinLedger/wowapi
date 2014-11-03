@@ -73,6 +73,11 @@ class API:
                 payload[key] = parameters[key]
 
         r = requests.get(url, params=payload)
+
+        # Raise an api error for all non-200 status codes
+        if r.status_code != 200:
+            raise APIError(r.status_code, r.text)
+
         return r.json()
 
     def achievement(self, id):
