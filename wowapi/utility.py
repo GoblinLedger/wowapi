@@ -1,4 +1,5 @@
 import requests
+from wowapi import APIError
 
 #: Table for converting currencies. Uses copper as the base unit.
 CURRENCY_EXCHANGE = {
@@ -46,7 +47,7 @@ def retrieve_auctions(auction_status, tries=2):
             tries = tries - 1
 
         if tries <= 0 and r.status_code != 200:
-            return APIError(r.status_code, r.text)
+            raise APIError(r.status_code, r.text)
 
         files['data'] = r.json()
 
