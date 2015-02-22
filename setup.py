@@ -19,8 +19,7 @@ setup(
     packages=['wowapi'],
     install_requires=[
         'requests',
-        'certifi',
-        'wsgiref'
+        'certifi'
     ],
     cmdclass={'test': PyTest},
     tests_require=['pytest'],
