@@ -1,4 +1,17 @@
 from setuptools import setup, find_packages
+from setuptools.command.test import test as TestCommand
+import sys
+
+class PyTest(TestCommand):
+    def finalize_options(self):
+        TestCommand.finalize_options(self)
+        self.test_args = []
+        self.test_suite = True
+
+    def run_tests(self):
+        import pytest
+        errcode = pytest.main(self.test_args)
+        sys.exit(errcode)
 
 setup(
     name='wowapi',
@@ -9,7 +22,12 @@ setup(
         'certifi',
         'wsgiref'
     ],
-
+    cmdclass={'test': PyTest},
+    tests_require=['pytest'],
+    test_suite='tests.test_wowapi',
+    extra_require={
+        'testing': ['pytest'],
+    },
     author = "Billy Overton",
     author_email = "billy@billyoverton.com",
     description = "Python library for the World of Warcraft Community API",
