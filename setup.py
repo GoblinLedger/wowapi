@@ -15,7 +15,7 @@ class PyTest(TestCommand):
 
 setup(
     name='wowapi',
-    version='0.2.0',
+    version='0.3.0',
     packages=['wowapi'],
     install_requires=[
         'requests',
