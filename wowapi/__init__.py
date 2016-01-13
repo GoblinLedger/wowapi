@@ -21,6 +21,7 @@ CHARACTER_FIELDS = [
     "pvp",
     "quests",
     "reputation",
+    "statistics",
     "stats",
     "talents",
     "titles",
@@ -218,5 +219,24 @@ class API:
         resourceUrl = "/data/pet/types"
         return self.get_resource(resourceUrl)
 
+    def mount(self):
+        resourceUrl = "/mount/"
+        return self.get_resource(resourceUrl)
 
+    def zone(self, id=None):
+        """Returns a specific zone (zone being a dungeon or raid in this context) or a list of all supported zones"""
+        if id is not None:
+            resourceUrl = "/zone/{0}".format(id)
+            return self.get_resource(resourceUrl)
 
+        resourceUrl = "/zone/"
+        return self.get_resource(resourceUrl)
+
+    def boss(self, id=None):
+        """Returns a specific boss (boss being a boss encounter, which may include more than one NPC) or a list of all supported bosses"""
+        if id is not None:
+            resourceUrl = "/boss/{0}".format(id)
+            return self.get_resource(resourceUrl)
+
+        resourceUrl = "/boss/"
+        return self.get_resource(resourceUrl)
