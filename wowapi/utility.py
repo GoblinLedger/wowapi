@@ -52,3 +52,23 @@ def retrieve_auctions(auction_status, tries=2):
         files['data'] = r.json()
 
     return data
+
+def format_character_race(api, charRace):
+    """Returns a string identifying the character's race (i.e., Dwarf, Human, Undead)"""
+    RACES = api.character_races()
+
+    for race in RACES['races']:
+        if race['id'] == charRace:
+            return race['name']
+
+    return 'Unknown race id'
+
+def format_character_class(api, charClass):
+    """Returns a string identifying the character's class (i.e, Warlock, Paladin, Priest)"""
+    CLASSES = api.character_classes()
+
+    for wowClass in CLASSES['classes']:
+        if wowClass['id'] == charClass:
+            return wowClass['name']
+
+    return 'Unknown class id'
