@@ -1,15 +1,15 @@
 import requests
 
+"""The available regions"""
 REGIONS = {
-    """The available regions"""
     'US': 'https://us.api.battle.net/wow',
     'EU': 'https://eu.api.battle.net/wow',
     'KR': 'https://kr.api.battle.net/wow',
     'TW': 'https://tw.api.battle.net/wow'
 }
 
+"""The available fields for use to get more detailed information for a specific character"""
 CHARACTER_FIELDS = [
-    """The available fields for use to get more detailed information for a specific character"""
     "achievements",
     "appearance",
     "feed",
@@ -30,16 +30,16 @@ CHARACTER_FIELDS = [
     "audit"
 ]
 
+"""The available fields for use to get more detailed information for a specific guild"""
 GUILD_FIELDS = [
-    """The available fields for use to get more detailed information for a specific guild"""
     "achievements",
     "members",
     "news",
     "challenge"
 ]
 
+"""The available PvP brackets"""
 PVP_BRACKETS = [
-    """The available PvP brackets"""
     '2v2',
     '3v3',
     '5v5',
