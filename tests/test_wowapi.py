@@ -39,3 +39,35 @@ def test_auction_data(api):
         assert 'data' in snap
         assert 'auctions' in snap['data']
 
+def test_boss_list(api):
+    ''' Retreive list of all bosses '''
+    bosses = api.boss()
+
+    assert 'bosses' in bosses
+
+def test_boss_single(api):
+    ''' Retreive a specific boss (Selin Fireheart) '''
+    bossId = 24723
+    bossName = 'Selin Fireheart'
+    boss = api.boss(bossId)
+
+    assert boss['id'] == bossId
+    assert boss['name'] == bossName
+
+def test_mount(api):
+    ''' Get the list of mounts '''
+    mounts = api.mount()
+    assert 'mounts' in mounts
+
+def test_zone_list(api):
+    ''' Retreive full zone list '''
+    zones = api.zone()
+    assert 'zones' in zones
+
+def test_zone_single(api):
+    ''' Retreive a specfic zone (Magister's Terrace) '''
+    zoneId = 4131
+    zoneName = "Magister's Terrace"
+    zone = api.zone(zoneId)
+    assert zone['id'] == zoneId
+    assert zone['name'] == zoneName

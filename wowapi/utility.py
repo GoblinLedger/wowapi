@@ -8,6 +8,16 @@ CURRENCY_EXCHANGE = {
     'copper': 1
 }
 
+FACTIONS = {
+    '0': 'Alliance',
+    '1': 'Horde'
+}
+
+GENDERS = {
+    '0': 'Male',
+    '1': 'Female'
+}
+
 def format_currency(copper, format='{gold}g {silver}s {copper}c'):
     """Takes a copper amount and formats it into a pretty string
 
@@ -52,3 +62,41 @@ def retrieve_auctions(auction_status, tries=2):
         files['data'] = r.json()
 
     return data
+
+def format_character_race(api, charRace):
+    """Returns a string identifying the character's race (i.e., Dwarf, Human, Undead)"""
+
+    RACES = api.character_races()
+
+    for race in RACES['races']:
+        if race['id'] == charRace:
+            return race['name']
+
+    raise ValueError("{0} is not a valid race id.".format(charRace))
+
+def format_character_class(api, charClass):
+    """Returns a string identifying the character's class (i.e., Warlock, Paladin, Priest)"""
+
+    CLASSES = api.character_classes()
+
+    for wowClass in CLASSES['classes']:
+        if wowClass['id'] == charClass:
+            return wowClass['name']
+
+    raise ValueError("{0} is not a valid class id.".format(charClass))
+
+def format_character_faction(charFaction):
+    """Returns a string identifying the character's faction (i.e., Horde/Alliance)"""
+
+    if str(charFaction) not in FACTIONS:
+        raise ValueError("{0} is not a valid faction for a character.  Value should be either 0 or 1.".format(charFaction))
+
+    return FACTIONS[str(charFaction)]
+
+def format_character_gender(charGender):
+    """Returns a string identifying the character's gender (i.e, Male/Female)"""
+
+    if str(charGender) not in GENDERS:
+        raise ValueError("{0} is not a valid gender for a character.  Value should be either 0 or 1.".format(charGender))
+
+    return GENDERS[str(charGender)]
